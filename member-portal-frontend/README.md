@@ -1,3 +1,8 @@
+# member-portal
+kstmメンバーであることを確認し、また事務処理を簡潔化するためのポータルサイト
+
+以下Next.jsのREADME.md
+---
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
