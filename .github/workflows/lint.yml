@@ -6,12 +6,15 @@ on:
     paths:
       - 'member-portal-frontend/**'
 
+permissions:
+  statuses: write
+  contents: read
+  pull-requests: write
+
 defaults:
   run:
     working-directory: member-portal-frontend
 
-permissions:
-  statuses: write
 
 jobs:
   eslint:
@@ -30,5 +33,6 @@ jobs:
       - uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
+          reporter: github-pr-review # Change reporter.
           workdir: member-portal-frontend
+          fail_on_error: 'true'
