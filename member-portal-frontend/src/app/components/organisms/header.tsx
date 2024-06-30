@@ -8,7 +8,7 @@ export function Header() {
   return (
     <div className="py-4 px-4 flex items-center justify-between">
       <div className="gap-4 flex items-center">
-        {/* kstm logoの追加 */}
+        {/* kstm logo */}
         <Link href={"/"} className="font-medium flex gap-2">
           <Image
             src="/kstm.svg"
@@ -20,14 +20,14 @@ export function Header() {
           <div className="py-2">kstm</div>
         </Link>
         <div>
-          {/* ナビゲーションメニューの追加 */}
+          {/* NavigationMenu */}
           <NavigationMenuDemo />
         </div>
       </div>
       <div className="flex gap-2">
-        {/*Themeの追加*/}
+        {/*Theme(light mode and dark mode)*/}
         <ModeToggle />
-        {/* avatarの追加 */}
+        {/* avatar icon */}
         <DropdownMenuDemo />
       </div>
     </div>
