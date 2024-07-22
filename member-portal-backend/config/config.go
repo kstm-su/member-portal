@@ -13,6 +13,10 @@ type Config struct {
 		Host string `yaml:"host"`
 	} `yaml:"server"`
 
+	File struct {
+		Base string `yaml:"base"`
+	} `yaml:"file"`
+
 	Database struct {
 		Host     string `yaml:"host"`
 		Port     int    `yaml:"port"`
@@ -35,6 +39,8 @@ func init() {
 	viper.SetDefault("server.port", 8080)
 	viper.SetDefault("server.host", "localhost")
 
+	viper.SetDefault("file.base", "/app")
+
 	viper.SetDefault("database.host", "localhost")
 	viper.SetDefault("database.port", 5432)
 	viper.SetDefault("database.user", "postgres")
@@ -47,11 +53,12 @@ func init() {
 	viper.SetDefault("jwt.key_id", "key")
 }
 
+var Cfg Config
+
 func Load(configFile string) (*Config, error) {
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(configFile)
 
-	var cfg Config
 	if _, err := os.Stat(configFile); os.IsNotExist(err) {
 		err = viper.WriteConfig()
 		if err != nil {
@@ -66,11 +73,11 @@ func Load(configFile string) (*Config, error) {
 	}
 	slog.Info("設定ファイルを読み込みました。")
 
-	err = viper.Unmarshal(&cfg)
+	err = viper.Unmarshal(&Cfg)
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal error: %s \n", err)
 	}
 	slog.Info("設定ファイルを構造体に変換しました。")
 
-	return &cfg, nil
+	return &Cfg, nil
 }
