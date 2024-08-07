@@ -5,7 +5,8 @@ import (
 )
 
 func main() {
-	// Initialize a Router
+	// コマンドの実行
+	// flow: コマンド -> コンフィグ -> ルーター
 	err := cmd.Execute()
 	if err != nil {
 		err.Error()

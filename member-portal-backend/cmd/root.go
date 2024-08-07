@@ -9,7 +9,6 @@ import (
 var configFile string
 
 const name = "member-portal"
-const file = "." + name + ".yaml"
 
 var rootCmd = &cobra.Command{
 	Use:   name,
@@ -17,11 +16,14 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
+	// コマンドフラグの設定
 	flags := rootCmd.PersistentFlags()
+	// 設定ファイルのパスを指定するフラグ --config, -c
 	flags.StringVarP(&configFile, "config", "c", "/app/config.yaml", "config file path (default is /app/config.yaml)")
 }
 
 func Execute() error {
+	// コマンドの実行
 	err := rootCmd.Execute()
 	if err != nil {
 		return err
@@ -31,6 +33,7 @@ func Execute() error {
 		print(err.Error())
 		return err
 	}
+	// ルーターの実行
 	router.Execute(c)
 	return nil
 }

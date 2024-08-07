@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// 設定ファイルの構造体
 type Config struct {
 	Server struct {
 		Port int    `yaml:"port"`
@@ -36,6 +37,7 @@ type Config struct {
 }
 
 func init() {
+	//デフォルト設定ファイルの設定
 	viper.SetDefault("server.port", 8080)
 	viper.SetDefault("server.host", "localhost")
 
@@ -56,9 +58,11 @@ func init() {
 var Cfg Config
 
 func Load(configFile string) (*Config, error) {
+	//設定ファイの初期化
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(configFile)
 
+	//設定ファイルの存在チェック　ない場合はデフォルト設定ファイルを作成
 	if _, err := os.Stat(configFile); os.IsNotExist(err) {
 		err = viper.WriteConfig()
 		if err != nil {
@@ -67,12 +71,14 @@ func Load(configFile string) (*Config, error) {
 		slog.Info("設定ファイルが存在しないため、デフォルト設定ファイルを作成しました。")
 	}
 
+	//設定ファイルの読み込み
 	err := viper.ReadInConfig()
 	if err != nil {
 		return nil, fmt.Errorf("設定ファイル読み込みエラー: %s \n", err)
 	}
 	slog.Info("設定ファイルを読み込みました。")
 
+	//設定ファイルを構造体に変換
 	err = viper.Unmarshal(&Cfg)
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal error: %s \n", err)
