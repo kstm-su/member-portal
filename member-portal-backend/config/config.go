@@ -1,9 +1,11 @@
 package config
 
 import (
+	"crypto/rand"
 	"fmt"
 	"github.com/spf13/viper"
 	"log/slog"
+	"math/big"
 	"os"
 )
 
@@ -19,10 +21,16 @@ type Config struct {
 	} `yaml:"file"`
 
 	Database struct {
-		Host     string `yaml:"host"`
-		Port     int    `yaml:"port"`
-		User     string `yaml:"user"`
-		Password string `yaml:"password"`
+		Type   string `yaml:"type"`
+		SQLite struct {
+			Path string `yaml:"path"`
+		} `yaml:"sqlite"`
+		Postgres struct {
+			Host     string `yaml:"host"`
+			Port     int    `yaml:"port"`
+			User     string `yaml:"user"`
+			Password string `yaml:"password"`
+		} `yaml:"postgres"`
 	} `yaml:"database"`
 
 	JWT struct {
@@ -34,6 +42,11 @@ type Config struct {
 		Realm  string `yaml:"realm"`
 		KeyId  string `yaml:"key_id"`
 	} `yaml:"jwt"`
+
+	Password struct {
+		Pepper    string `yaml:"pepper"`
+		Algorithm string `yaml:"algorithm"`
+	} `yaml:"password"`
 }
 
 func init() {
@@ -43,16 +56,18 @@ func init() {
 
 	viper.SetDefault("file.base", "/app")
 
-	viper.SetDefault("database.host", "localhost")
-	viper.SetDefault("database.port", 5432)
-	viper.SetDefault("database.user", "postgres")
-	viper.SetDefault("database.password", "password")
+	viper.SetDefault("database.type", "sqlite")
+
+	viper.SetDefault("database.sqlite.path", "/app/db.sqlite3")
 
 	viper.SetDefault("jwt.key.private_key", "private.pem")
 	viper.SetDefault("jwt.key.public_key", "public.pem")
 	viper.SetDefault("jwt.issuer", "localhost")
 	viper.SetDefault("jwt.realm", "localhost")
 	viper.SetDefault("jwt.key_id", "key")
+
+	viper.SetDefault("password.pepper", generateRandomString(30))
+	viper.SetDefault("password.algorithm", "argon2")
 }
 
 var Cfg Config
@@ -86,4 +101,18 @@ func Load(configFile string) (*Config, error) {
 	slog.Info("設定ファイルを構造体に変換しました。")
 
 	return &Cfg, nil
+}
+
+func generateRandomString(n int) string {
+	const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"
+	ret := make([]byte, n)
+	for i := 0; i < n; i++ {
+		num, err := rand.Int(rand.Reader, big.NewInt(int64(len(letters))))
+		if err != nil {
+			return ""
+		}
+		ret[i] = letters[num.Int64()]
+	}
+
+	return string(ret)
 }

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/kstm-su/Member-Portal/backend/config"
+	"github.com/kstm-su/Member-Portal/backend/database"
 	"github.com/kstm-su/Member-Portal/backend/router"
 	"github.com/spf13/cobra"
 )
@@ -33,6 +34,8 @@ func Execute() error {
 		print(err.Error())
 		return err
 	}
+	// データベースの初期化
+	database.InitDatabase(c)
 	// ルーターの実行
 	router.Execute(c)
 	return nil

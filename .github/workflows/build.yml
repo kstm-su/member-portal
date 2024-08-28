@@ -31,8 +31,8 @@ jobs:
         run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7)" >> $GITHUB_ENV
       - uses: docker/build-push-action@v6
         with:
-          context: .
-          file: "./member-portal-${{ matrix.tag }}/Dockerfile"
+          context: ./member-portal-${{ matrix.tag }}
+          file: ./member-portal-${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64
           push: true
           tags: |
