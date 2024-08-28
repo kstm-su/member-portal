@@ -77,7 +77,7 @@ func Load(configFile string) (*Config, error) {
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(configFile)
 
-	//設定ファイルの存在チェック　ない場合はデフォルト設定ファイルを作成
+	//設定ファイルの存在チェック ない場合はデフォルト設定ファイルを作成
 	if _, err := os.Stat(configFile); os.IsNotExist(err) {
 		err = viper.WriteConfig()
 		if err != nil {
