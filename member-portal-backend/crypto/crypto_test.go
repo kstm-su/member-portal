@@ -1,8 +1,11 @@
 package crypto
 
 import (
+	"github.com/kstm-su/Member-Portal/backend/config"
 	"testing"
 )
+
+var cfg = config.Config{}
 
 func TestPasswordEncrypt(t *testing.T) {
 	password := "password"
@@ -15,12 +18,12 @@ func TestPasswordEncrypt(t *testing.T) {
 func TestVerifyPassword(t *testing.T) {
 	password := "password"
 	encryptedPassword := "$argon2id$v=19$m=65536,t=4,p=1$cmFmamRhc2poZmRzYWpoa2xhc2Rma2po$i39rjDYap4n6eA2XhCusp5wHGPKBBpM0Lg9S82kw0Ec"
-	if !VerifyPassword(encryptedPassword, password) {
+	if !VerifyPassword(encryptedPassword, password, cfg) {
 		t.Errorf("VerifyPassword failed, expected true, got false")
 	}
 
 	wrongPassword := "wrongpassword"
-	if VerifyPassword(encryptedPassword, wrongPassword) {
+	if VerifyPassword(encryptedPassword, wrongPassword, cfg) {
 		t.Errorf("VerifyPassword failed, expected false, got true")
 	}
 }

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/kstm-su/Member-Portal/backend/config"
+	"github.com/kstm-su/Member-Portal/backend/crypto"
 	"github.com/kstm-su/Member-Portal/backend/database"
 	"github.com/kstm-su/Member-Portal/backend/router"
 	"github.com/spf13/cobra"
@@ -30,6 +31,12 @@ func Execute() error {
 		return err
 	}
 	c, err := config.Load(configFile)
+	if err != nil {
+		print(err.Error())
+		return err
+	}
+	//キーペアの生成
+	err = crypto.GenKey(2048, *c)
 	if err != nil {
 		print(err.Error())
 		return err

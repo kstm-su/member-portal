@@ -66,6 +66,8 @@ func init() {
 	viper.SetDefault("jwt.realm", "localhost")
 	viper.SetDefault("jwt.key_id", "key")
 
+	//pepperについては一時的にconfigに保存するが、実環境ではHashiCorp Vaultなどのシークレット管理ツールを使用することを検討
+	//Databaseに保存はしない
 	viper.SetDefault("password.pepper", generateRandomString(30))
 	viper.SetDefault("password.algorithm", "argon2")
 }
@@ -99,6 +101,12 @@ func Load(configFile string) (*Config, error) {
 		return nil, fmt.Errorf("unmarshal error: %s \n", err)
 	}
 	slog.Info("設定ファイルを構造体に変換しました。")
+
+	baseDir := Cfg.File.Base
+	err = os.MkdirAll(baseDir, 0700)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create base directory: %s \n", err)
+	}
 
 	return &Cfg, nil
 }

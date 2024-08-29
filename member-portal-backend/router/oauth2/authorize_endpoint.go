@@ -6,6 +6,7 @@ import (
 	"github.com/kstm-su/Member-Portal/backend/database"
 	"github.com/kstm-su/Member-Portal/backend/models"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -44,7 +45,7 @@ type AuthorizePostRequest struct {
 	Nonce         string `form:"nonce"`          //Nonce
 }
 
-type Record struct {
+type RecordAuthData struct {
 	Code        string    //認可コード
 	ClientId    string    //public clientのチェックのため
 	RedirectUri string    //public clientのチェックのため
@@ -140,7 +141,7 @@ func AuthorizationPostEndpointHandler(c echo.Context) error {
 	}
 
 	hashedPassword := getUserHashedPassword(userId)
-	if !crypto.VerifyPassword(hashedPassword, r.Password) {
+	if !crypto.VerifyPassword(hashedPassword, r.Password, config.Cfg) {
 		return redirectWithError(c, r.RedirectUri, "access_denied", "Password is incorrect", r.State)
 	}
 
@@ -152,7 +153,7 @@ func AuthorizationPostEndpointHandler(c echo.Context) error {
 
 func storeAuthorizedData(code string, ClientId string, uri string, scope string, challenge string, nonce string, user string) {
 	current := time.Now()
-	record := Record{
+	record := RecordAuthData{
 		Code:        code,
 		ClientId:    ClientId,
 		RedirectUri: uri,
@@ -168,42 +169,51 @@ func storeAuthorizedData(code string, ClientId string, uri string, scope string,
 	//認可コードの有効期限が切れた場合削除
 	go func() {
 		time.Sleep(time.Minute * 10)
+		println("delete authorize code " + code)
 		delete(AuthorizedData, code)
 	}()
 }
 
-var AuthorizedData = make(map[string]Record)
+var AuthorizedData = make(map[string]RecordAuthData)
 
 func getUserHashedPassword(id string) string {
 	var auth models.Auth
-	database.DB.Select(models.Auth{}).Where("id = ?", id).First(&auth)
+	database.DB.Where("user_id = ?", id).First(&auth)
+	println(auth.HashedPassword)
 	return auth.HashedPassword
 }
 
 func isUserRegistered(id string) bool {
-	var user models.User
-	result := database.DB.Where("id = ?", id).First(&user)
+	var auth models.Auth
+	result := database.DB.Where("user_id = ?", id).First(&auth)
 	return result.RowsAffected > 0
 }
 
 func redirectWithError(c echo.Context, redirectUri, error, errorDescription, state string) error {
-	uri := strings.Builder{}
-	uri.WriteString(redirectUri)
-	uri.WriteString("?error=")
-	uri.WriteString(error)
-	uri.WriteString("&error_description=")
-	uri.WriteString(errorDescription)
-	uri.WriteString("&state=")
-	uri.WriteString(state)
-	return c.Redirect(http.StatusFound, uri.String())
+	parsedURL, err := url.Parse(redirectUri)
+	if err != nil {
+		return err
+	}
+
+	params := url.Values{}
+	params.Add("error", error)
+	params.Add("error_description", errorDescription)
+	params.Add("state", state)
+
+	parsedURL.RawQuery = params.Encode()
+	return c.Redirect(http.StatusFound, parsedURL.String())
 }
 
 func redirectWithCode(c echo.Context, redirectUri, code, state string) error {
-	uri := strings.Builder{}
-	uri.WriteString(redirectUri)
-	uri.WriteString("?code=")
-	uri.WriteString(code)
-	uri.WriteString("&state=")
-	uri.WriteString(state)
-	return c.Redirect(http.StatusFound, uri.String())
+	parsedURL, err := url.Parse(redirectUri)
+	if err != nil {
+		return err
+	}
+
+	params := url.Values{}
+	params.Add("code", code)
+	params.Add("state", state)
+
+	parsedURL.RawQuery = params.Encode()
+	return c.Redirect(http.StatusFound, parsedURL.String())
 }
