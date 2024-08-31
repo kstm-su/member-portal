@@ -1,14 +1,8 @@
 package models
 
-type User struct {
-	UserID       string `gorm:"primaryKey;column:user_id;type:varchar(20)"`
-	Nickname     string `gorm:"column:nickname;type:varchar(20)"`
-	Auth         Auth
-	Affiliation  Affiliation
-	Contact      Contact
-	Name         Name
-	Profile      Profile
-	ActivityLogs []ActivityLog
+type Users struct {
+	UserID   string `gorm:"primaryKey;column:user_id;type:varchar(20)"`
+	Nickname string `gorm:"column:nickname;type:varchar(20)"`
 }
 
 type Auth struct {

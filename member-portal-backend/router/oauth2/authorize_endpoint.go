@@ -5,6 +5,7 @@ import (
 	"github.com/kstm-su/Member-Portal/backend/crypto"
 	"github.com/kstm-su/Member-Portal/backend/database"
 	"github.com/kstm-su/Member-Portal/backend/models"
+	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/url"
 	"os"
@@ -12,7 +13,6 @@ import (
 	"time"
 
 	"github.com/kstm-su/Member-Portal/backend/config"
-	"github.com/labstack/echo/v4"
 )
 
 type ClientData struct {
@@ -101,8 +101,8 @@ func AuthorizationGetEndpointHandler(c echo.Context) error {
 	}
 
 	//リダイレクトURIが一致しない場合
-	if strings.HasPrefix(r.RedirectUri, clientData.RedirectUri) {
-		return c.String(http.StatusBadRequest, "Invalid request")
+	if !strings.HasPrefix(r.RedirectUri, clientData.RedirectUri) {
+		return c.String(http.StatusBadRequest, "Invalid redirect_uri")
 	}
 
 	//モデルの作成
@@ -179,7 +179,6 @@ var AuthorizedData = make(map[string]RecordAuthData)
 func getUserHashedPassword(id string) string {
 	var auth models.Auth
 	database.DB.Where("user_id = ?", id).First(&auth)
-	println(auth.HashedPassword)
 	return auth.HashedPassword
 }
 

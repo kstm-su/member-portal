@@ -7,14 +7,14 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"log"
+	"log/slog"
 )
 
 var DB *gorm.DB
 
 func InitDatabase(c *config.Config) {
 	var err error
-	log.Println("Connecting to database")
+	slog.Info("データベースへの接続を開始します")
 	switch c.Database.Type {
 	case "sqlite":
 		DB, err = gorm.Open(sqlite.Open(c.Database.SQLite.Path), &gorm.Config{})
@@ -23,13 +23,13 @@ func InitDatabase(c *config.Config) {
 		DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	}
 	if err != nil {
-		log.Fatal("failed to connect database")
+		slog.Error("データベースへの接続に失敗しました")
 	}
-	log.Println("Connected to database")
+	slog.Info("データベースへの接続が完了しました")
 
 	// Auto-migrate the models
-	err = DB.AutoMigrate(&models.User{}, &models.Auth{}, &models.Role{}, &models.Affiliation{}, &models.Faculty{}, &models.Contact{}, &models.Name{}, &models.Profile{}, &models.ActivityLog{})
+	err = DB.AutoMigrate(&models.Users{}, &models.Auth{}, &models.Role{}, &models.Affiliation{}, &models.Faculty{}, &models.Contact{}, &models.Name{}, &models.Profile{}, &models.ActivityLog{})
 	if err != nil {
-		log.Fatal("failed to migrate database")
+		slog.Error("データベースのマイグレーションに失敗しました")
 	}
 }

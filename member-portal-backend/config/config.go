@@ -105,7 +105,7 @@ func Load(configFile string) (*Config, error) {
 	baseDir := Cfg.File.Base
 	err = os.MkdirAll(baseDir, 0700)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create base directory: %s \n", err)
+		return nil, fmt.Errorf("baseディレクトリを作成するのに失敗しました: %s \n", err)
 	}
 
 	return &Cfg, nil

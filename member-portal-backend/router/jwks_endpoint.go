@@ -6,7 +6,6 @@ import (
 )
 
 func JWKsHandler(c echo.Context) error {
-	println("access ")
 	file := config.Cfg.File.Base + "/key/jwks.json"
 	return c.File(file)
 }

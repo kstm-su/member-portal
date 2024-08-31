@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-const EXPIRES_IN = 300
+const expiresIn = 300
 
 type TokenData struct {
 	Token        string `json:"access_token"`
@@ -46,6 +46,7 @@ type TokenClaims struct {
 	RedirectUri string
 	Nonce       string
 	Scope       string
+	UserId      string
 }
 
 func TokenEndpointHandler(c echo.Context) error {
@@ -72,7 +73,7 @@ func TokenEndpointHandler(c echo.Context) error {
 			//}
 
 			token, state := issueTokenWithRefreshToken(r.RefreshToken, config.Cfg)
-			return c.JSON(http.StatusOK, TokenData{token, "Bearer", EXPIRES_IN, state, r.RefreshToken})
+			return c.JSON(http.StatusOK, TokenData{token, "Bearer", expiresIn, state, r.RefreshToken})
 		} else {
 			redirectUri := r.RedirectUri
 			if redirectUri == "" {
@@ -84,7 +85,7 @@ func TokenEndpointHandler(c echo.Context) error {
 			}
 
 			token, state := issueTokenWithRefreshToken(r.RefreshToken, config.Cfg)
-			return c.JSON(http.StatusOK, TokenData{token, "Bearer", EXPIRES_IN, state, r.RefreshToken})
+			return c.JSON(http.StatusOK, TokenData{token, "Bearer", expiresIn, state, r.RefreshToken})
 		}
 	} else if grantType == "authorization_code" {
 		var r AuthorizeCodeRequest
@@ -120,10 +121,10 @@ func TokenEndpointHandler(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, "Invalid code_verifier")
 		}
 
-		claims := TokenClaims{r.ClientId, r.RedirectUri, data.Nonce, data.Scope}
+		claims := TokenClaims{r.ClientId, r.RedirectUri, data.Nonce, data.Scope, data.User}
 		token := issueToken(claims, config.Cfg)
 		refreshToken := issueRefreshToken(claims, config.Cfg)
-		return c.JSON(http.StatusOK, TokenData{token, "Bearer", EXPIRES_IN, data.Nonce, refreshToken})
+		return c.JSON(http.StatusOK, TokenData{token, "Bearer", expiresIn, data.Nonce, refreshToken})
 	} else {
 		return c.JSON(http.StatusBadRequest, "Invalid grant_type")
 	}
@@ -154,15 +155,17 @@ func getClientData(id string, c echo.Context) (ClientData, error) {
 func issueToken(data TokenClaims, config config.Config) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
 		"iss":        config.JWT.Issuer,
+		"sub":        data.UserId,
 		"aud":        data.ClientId,
 		"nbf":        time.Now().Unix(),
-		"exp":        time.Now().Add(time.Second * EXPIRES_IN).Unix(),
+		"exp":        time.Now().Add(time.Second * expiresIn).Unix(),
 		"iat":        time.Now().Unix(),
 		"jti":        uuid.New().String(),
 		"client_id":  data.ClientId,
 		"scope":      data.Scope,
 		"nonce":      data.Nonce,
 		"token_type": "token",
+		"user_id":    data.UserId,
 	})
 	tokenString, _ := token.SignedString(crypto.GetKeys(config).PrivateKey)
 	return tokenString
@@ -171,6 +174,7 @@ func issueToken(data TokenClaims, config config.Config) string {
 func issueRefreshToken(data TokenClaims, config config.Config) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
 		"iss":        config.JWT.Issuer,
+		"sub":        data.UserId,
 		"aud":        data.ClientId,
 		"nbf":        time.Now().Unix(),
 		"exp":        time.Now().Add(time.Hour * 24 * 30).Unix(),
@@ -180,6 +184,7 @@ func issueRefreshToken(data TokenClaims, config config.Config) string {
 		"scope":      data.Scope,
 		"nonce":      data.Nonce,
 		"token_type": "refresh_token",
+		"user_id":    data.UserId,
 	})
 	tokenString, _ := token.SignedString(crypto.GetKeys(config).PrivateKey)
 	return tokenString
@@ -194,7 +199,8 @@ func issueTokenWithRefreshToken(refreshToken string, config config.Config) (stri
 	redirectUri := claims["redirect_uri"].(string)
 	scope := claims["scope"].(string)
 	nonce := claims["nonce"].(string)
-	data := TokenClaims{clientId, redirectUri, nonce, scope}
+	userId := claims["user_id"].(string)
+	data := TokenClaims{clientId, redirectUri, nonce, scope, userId}
 	newToken := issueToken(data, config)
 	return newToken, nonce
 }
