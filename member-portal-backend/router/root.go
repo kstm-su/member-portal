@@ -40,6 +40,9 @@ func Execute(c *config.Config) {
 	oauth2Router := e.Group("/oauth2")
 	oauth2.Setup(oauth2Router)
 
+	//e.GET("/.well-known/openid-configuration", OpenIDConfigurationHandler)
+	e.GET("/.well-known/jwks.json", JWKsHandler)
+
 	//サーバーの起動
 	var port = c.Server.Port
 	e.Logger.Fatal(e.Start(":" + strconv.Itoa(port)))

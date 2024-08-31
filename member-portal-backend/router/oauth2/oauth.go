@@ -1,6 +1,8 @@
 package oauth2
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/labstack/echo/v4"
+)
 
 func Setup(e *echo.Group) {
 	e.GET("/authorize", AuthorizationGetEndpointHandler)
@@ -9,6 +11,5 @@ func Setup(e *echo.Group) {
 	e.POST("/revoke", RevokeTokenEndpointHandler)
 	e.POST("/introspect", IntrospectTokenEndpointHandler)
 	e.GET("/userinfo", UserInfoEndpointHandler)
-	//e.GET("/.well-known/openid-configuration", OpenIDConfigurationHandler)
-	//e.GET("/.well-known/jwks.json", JwksHandler)
+
 }

@@ -36,11 +36,7 @@ func Execute() error {
 		return err
 	}
 	//キーペアの生成
-	err = crypto.GenKey(2048, *c)
-	if err != nil {
-		print(err.Error())
-		return err
-	}
+	crypto.Init(*c)
 	// データベースの初期化
 	database.InitDatabase(c)
 	// ルーターの実行
