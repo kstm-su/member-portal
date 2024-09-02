@@ -1,0 +1,19 @@
+ProfileData:
+  type: object
+  properties:
+    sub:
+      type: string
+      description: "User ID"
+      example: "kstm_user"
+    nickname:
+      type: string
+      description: "User nickname"
+      example: "かすたむ"
+    picture:
+      type: string
+      description: "User picture URL"
+      example: "https://example.com/user/kstm_user/picture"
+    email:
+      type: string
+      description: "User email"
+      example: "kstm@example.com"
