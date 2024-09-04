@@ -1,0 +1,19 @@
+TokenData:
+  type: object
+  required:
+    - access_token
+    - token_type
+    - expires_in
+    - state
+    - refresh_token
+  properties:
+    access_token:
+      type: string
+    token_type:
+      type: string
+    expires_in:
+      type: integer
+    state:
+      type: string
+    refresh_token:
+      type: string

@@ -1,0 +1,14 @@
+post:
+  responses:
+    '200':
+      description: OK
+  summary: Revoke access token
+  tags:
+    - oauth2
+  parameters:
+    - name: token
+      in: query
+      required: true
+      schema:
+        type: string
+# TODO - This is not implemented yet

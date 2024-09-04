@@ -1,0 +1,127 @@
+{{define "authorize"}}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>kstm member portal auth</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        />
+    </head>
+    <body>
+        <h1 id="greeting"></h1>
+        <section>
+            <div
+                class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+            >
+                <div
+                    class="flex items-center mb-6 text-2xl font-semibold text-gray-900 md:text-3xl"
+                >
+                    <img
+                        class="h-8 mr-2"
+                        src="https://raw.githubusercontent.com/kstm-su/kstm-su.github.io/master/src/.vuepress/public/kstm.svg"
+                        id="logoUrl"
+                        alt="logo"
+                    />
+                    kstm member portal
+                </div>
+                <div
+                    class="w-full bg-white rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0"
+                >
+                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                        <h1
+                            class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-xl"
+                            id="signIn"
+                        ></h1>
+
+                        <form class="space-y-4 md:space-y-6" action="#">
+                            <input
+                                type="hidden"
+                                name="client_id"
+                                value="{{.clientId}}"
+                            />
+                            <input
+                                type="hidden"
+                                name="redirect_uri"
+                                value="{{.redirectUri}}"
+                            />
+                            <input
+                                type="hidden"
+                                name="response_type"
+                                value="code"
+                            />
+                            <input type="hidden" name="state" value="{{.state}}" />
+                            <input type="hidden" name="scope" value="{{.scope}}" />
+                            <input type="hidden" name="code_challenge" value="{{.codeChallenge}}" />
+                            <input type="hidden" name="code_challenge_method" value="S256" />
+                            <input type="hidden" name="nonce" value="{{.nonce}}" />
+                            <div>
+                                ユーザーID
+                                <input
+                                    type="text"
+                                    name="userid"
+                                    id="userid"
+                                    class="bg-gray-50 border text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    placeholder="user_id"
+                                    required=""
+                                />
+                            </div>
+                            <div>
+                                パスワード
+                                <div style="position: relative">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        id="password"
+                                        class="bg-gray-50 border text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                        placeholder="••••••••"
+                                        required=""
+                                    />
+                                    <i
+                                        id="toggle-password"
+                                        class="fas fa-eye"
+                                        style="
+                                            position: absolute;
+                                            right: 10px;
+                                            top: 50%;
+                                            transform: translateY(-50%);
+                                            cursor: pointer;
+                                            color: #16a34a;
+                                        "
+                                    ></i>
+                                </div>
+                            </div>
+                            <div>
+                                <input
+                                    type="submit"
+                                    value="認証"
+                                    formmethod="post"
+                                    id="authorize"
+                                    class="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            const passwordInput = document.getElementById("password");
+            const togglePassword = document.getElementById("toggle-password");
+
+            togglePassword.addEventListener("click", (event) => {
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    togglePassword.classList.remove("fa-eye");
+                    togglePassword.classList.add("fa-eye-slash");
+                } else {
+                    passwordInput.type = "password";
+                    togglePassword.classList.remove("fa-eye-slash");
+                    togglePassword.classList.add("fa-eye");
+                }
+            });
+        </script>
+    </body>
+</html>
+{{end}}
