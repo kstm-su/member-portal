@@ -1,0 +1,6 @@
+{
+  "clientId": "example_client",
+  "clientName": "Example Client",
+  "redirectUri": "http://localhost:3000/callback",
+  "applicationName": "Example Application"
+}
