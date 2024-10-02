@@ -4,8 +4,8 @@ info:
   description: |
     This is the API documentation for the kstm member portal.
   license:
-    name: CC0-1.0
-    url: "https://creativecommons.org/publicdomain/zero/1.0/"
+    name: Apache 2.0
+    url: "https://github.com/kstm-su/member-portal/blob/main/LICENSE"
   version: "1.0.0"
 
 servers:
