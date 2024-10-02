@@ -28,4 +28,9 @@ jobs:
       - name: install packages
         run: pipenv sync --dev
 
+      - name: copy swagger
+        run: |
+          rm -r docs/docs/swagger 2> /dev/null
+          cp -r -f swagger docs/docs/swagger
+
       - run: pipenv shell mkdocs gh-deploy --force --config-file ./docs/mkdocs.yml
