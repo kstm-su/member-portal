@@ -1,0 +1,36 @@
+site_name: MemberPortal Docs
+site_url: https://kstm-su.github.io/member-portal/
+theme:
+  name: material
+  language: ja
+  logo: https://kstm.shinshu-u.ac.jp/kstm.svg
+  icon:
+    repo: fontawesome/brands/git-alt
+  features:
+    - navigation.tabs
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: amber
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: orange
+      accent: yellow
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+
+plugins:
+  - search:
+      lang: ja
+repo_url: https://github.com/kstm-su/member-portal
+repo_name: kstm-su/member-portal
+copyright: Copyright &copy; 2024 kstm
