@@ -13,7 +13,7 @@ TokenData:
       type: string
     expires_in:
       type: integer
-    state:
+    scope:
       type: string
     refresh_token:
       type: string
