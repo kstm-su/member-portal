@@ -4,7 +4,7 @@ go 1.22.3
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
-	github.com/google/uuid v1.4.0
+	github.com/google/uuid v1.6.0
 	github.com/labstack/echo-jwt/v4 v4.2.0
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/lestrrat-go/jwx/v2 v2.1.1
