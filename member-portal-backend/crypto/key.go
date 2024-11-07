@@ -33,6 +33,9 @@ func Init(config config.Config) {
 	slog.Info("キーペアより証明書を取得します")
 	keys := GetKeys(config)
 	err = generateCertificate(keys.PrivateKey, keys.PublicKey)
+	if err != nil {
+		panic("証明書の取得に失敗しました")
+	}
 	slog.Info("証明書の取得が完了しました")
 
 	slog.Info("jwks.jsonを生成します")
@@ -148,7 +151,7 @@ func generateCertificate(privateKey *rsa.PrivateKey, publicKey *rsa.PublicKey) e
 	defer func(certFile *os.File) {
 		err := certFile.Close()
 		if err != nil {
-
+			panic("証明書の書き込みに失敗しました")
 		}
 	}(certFile)
 
@@ -172,12 +175,12 @@ func generateJWKs(config config.Config) {
 	//そうでない場合
 	file, err := os.Create(jwksFile)
 	if err != nil {
-		slog.Warn("jwks.jsonの生成に失敗しました: %v", err)
+		slog.Warn("jwks.jsonの生成に失敗しました")
 	}
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-
+			panic("jwks.jsonの書き込みに失敗しました")
 		}
 	}(file)
 
@@ -185,7 +188,7 @@ func generateJWKs(config config.Config) {
 
 	key, err := jwk.PublicKeyOf(privateKey)
 	if err != nil {
-		slog.Warn("jwksのpublickey生成に失敗しました: %v", err)
+		slog.Warn("jwksのpublickey生成に失敗しました")
 	}
 
 	uniqueId := uuid.New()
@@ -205,6 +208,10 @@ func generateJWKs(config config.Config) {
 
 	// Save the JWK set to a file
 	_, err = file.Write(encoded)
+	if err != nil {
+		slog.Warn("jwks.jsonの生成に失敗しました")
+		return
+	}
 }
 
 func GetKeys(config config.Config) Key {

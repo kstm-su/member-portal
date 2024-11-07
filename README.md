@@ -19,14 +19,3 @@ kstmメンバーであることを確認し、また事務処理を簡潔化す�
 4. `http://localhost:3001` にアクセス
 
 
-## Common
-
-### APIドキュメント確認方法
-1. `cd swagger`で`swagger`ディレクトリに移動します
-2. `npx @redocly/cli preview-docs documentation.yml`を実行します
-3. `http://localhost:8080/`にアクセス
-
-### Mockサーバーの立て方
-1. `swagger/README.md` の "Getting started" の手順を行う
-2. "Mock API" の手順を `documentation.yml` と同じディレクトリにて行う
-3. `http://localhost:4010`にモックサーバーが立つ
