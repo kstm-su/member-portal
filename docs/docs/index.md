@@ -7,13 +7,7 @@ kstmメンバーであることを確認し、また事務処理を簡潔化す�
 
 ### APIドキュメント確認方法
 
-#### Github Pagesで確認する方法
-masterブランチのAPIドキュメントについては[こちら](redoc/index.html)で確認できます。
 
-#### ローカルで確認する方法
-1. `cd swagger`で`swagger`ディレクトリに移動します
-2. `npx @redocly/cli preview-docs documentation.yml`を実行します
-3. `http://localhost:8080/`にアクセス
 
 ### Mockサーバーの立て方
 #### Mockサーバーとは
@@ -28,9 +22,9 @@ APIのエンドポイントを実際に立てずに、APIのレスポンスを�
 ## 依存ソフトウェア
 
 API Docmentation: [redocly cli](https://redocly.com/docs/cli) <br>
-採用理由 : openapi形式のドキュメントを生成するため、swagger
+採用理由 : openapi形式のドキュメントを生成および表示するため。 <br>
 利用場面: apiのドキュメント生成および表示
 
 Container runtime: [Docker](https://www.docker.com/) <br>
-採用理由: 事実上のデファクトスタンダードであるため
+採用理由: 事実上のデファクトスタンダードであるため。
 

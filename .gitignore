@@ -3,3 +3,6 @@ docs/docs/swagger
 docs/site
 
 .idea
+
+member-portal-backend/app/**
+member-portal-backend/app-local/**
