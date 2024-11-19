@@ -1,0 +1,38 @@
+openapi: '3.0.2'
+info:
+  title: "kstm member portal"
+  description: |
+    This is the API documentation for the kstm member portal.
+  license:
+    name: Apache 2.0
+    url: "https://github.com/kstm-su/member-portal/blob/main/LICENSE"
+  version: "1.0.0"
+
+servers:
+  - url: "http://localhost:8080"
+    description: "Local server"
+  - url: "https://api.example.com"
+    description: "Production server"
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: /oauth2/authorize
+          tokenUrl: /oauth2/token
+          refreshUrl: /oauth2/token
+          scopes:
+            openid: Grants read access for OpenID Connect
+            profile: Grants read access for my profile
+
+paths:
+  /oauth2/userinfo:
+    $ref: './paths/oauth2/userinfo.yml'
+#  /oauth2/revoke: # TODO - This is not implemented yet
+#    $ref: './paths/oauth2/revoke.yml'
+#  /oauth2/introspect: # TODO - This is not implemented yet
+#    $ref: './paths/oauth2/introspect.yml'
+
+

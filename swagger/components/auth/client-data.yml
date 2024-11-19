@@ -1,0 +1,38 @@
+ClientData:
+  type: object
+  required:
+    - clientId
+    - clientName
+    - redirectUri
+  properties:
+    clientId:
+      type: string
+    clientName:
+      type: string
+    redirectUri:
+      type: string
+  discriminator:
+    propertyName: clientType
+    mapping:
+      public: '#/PublicClientData'
+      confidential: '#/ConfidentialClientData'
+PublicClientData:
+  allOf:
+    - $ref: '#/ClientData'
+    - type: object
+      properties:
+        clientType:
+          type: string
+          enum:
+            - public
+ConfidentialClientData:
+  allOf:
+    - $ref: '#/ClientData'
+    - type: object
+      properties:
+        clientSecret:
+          type: string
+        clientType:
+          type: string
+          enum:
+            - confidential

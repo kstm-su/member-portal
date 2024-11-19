@@ -1,0 +1,13 @@
+get:
+  summary: Get user information
+  tags:
+    - oauth2
+  security:
+    - oauth2: [ profile ]
+  responses:
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/common/profile-data.yml#/ProfileData'
+      description: "User information"
