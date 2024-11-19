@@ -36,7 +36,7 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/kstm-su/member-portal/${{ matrix.tag }}:latest
-            ghcr.io/kstm-su/member-portal/${{ matrix.tag }}:${{ env.GITHUB_SHA_SHORT }}
+            ghcr.io/${{GITHUB_REPOSITORY_OWNER}}/member-portal/${{ matrix.tag }}:latest
+            ghcr.io/${{GITHUB_REPOSITORY_OWNER}}/member-portal/${{ matrix.tag }}:${{ env.GITHUB_SHA_SHORT }}
           cache-from: type=gha,scope=member-portal-${{ matrix.tag }}
           cache-to: type=gha,mode=max,scope=member-portal-${{ matrix.tag }}

@@ -73,6 +73,9 @@ func VerifyPassword(hash string, password string, config config.Config) bool {
 	var threads uint8
 	_, err = fmt.Sscanf(parts[3], "m=%d,t=%d,p=%d", &memory, &iterator, &threads)
 
+	if err != nil {
+		panic(err.Error())
+	}
 	// ハッシュ値の長さを取得
 	keyLen := len(decodedHash)
 
@@ -83,11 +86,7 @@ func VerifyPassword(hash string, password string, config config.Config) bool {
 	genHash := argon2.IDKey([]byte(withPepper), salt, uint32(iterator), memory, threads, uint32(keyLen))
 
 	// 生成したハッシュ値とデータベースに保存されているハッシュ値を比較
-	if bytes.Equal(decodedHash, genHash) {
-		return true
-	}
-
-	return false
+	return bytes.Equal(decodedHash, genHash)
 }
 
 func GenerateRandomString(n int) string {

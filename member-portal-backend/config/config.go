@@ -54,11 +54,11 @@ func init() {
 	viper.SetDefault("server.port", 8080)
 	viper.SetDefault("server.host", "localhost")
 
-	viper.SetDefault("file.base", "/app")
+	viper.SetDefault("file.base", "/app/data")
 
 	viper.SetDefault("database.type", "sqlite")
 
-	viper.SetDefault("database.sqlite.path", "/app/db.sqlite3")
+	viper.SetDefault("database.sqlite.path", "/app/data/db.sqlite3")
 
 	viper.SetDefault("jwt.key.private_key", "private.pem")
 	viper.SetDefault("jwt.key.public_key", "public.pem")

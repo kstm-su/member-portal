@@ -27,7 +27,23 @@ markdown_extensions:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.superfences
-
+  - pymdownx.tasklist:
+      custom_checkbox: true
+nav:
+  - Home:
+      - 初めに: index.md
+  - Backend:
+      - セットアップ: backend/index.md
+      - 実装機能: backend/feature.md
+      - コンフィグ: backend/config.md
+      - 技術スタック: backend/technology-stack.md
+  - Frontend:
+      - セットアップ: frontend/index.md
+      - 技術スタック: frontend/technology-stack.md
+  - Common:
+      - APIドキュメント: common/api-docs.md
+      - 当ドキュメントについて: common/about-this.md
+      - Redocly: redoc/index.html
 plugins:
   - search:
       lang: ja

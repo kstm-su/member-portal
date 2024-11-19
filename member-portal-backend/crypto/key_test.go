@@ -9,7 +9,7 @@ import (
 func TestGenKey(t *testing.T) {
 	var cfg = config.Config{}
 	cfg.File.Base = "/tmp"
-	err := GenKey(2048, cfg)
+	err := genKey(cfg)
 	if err != nil {
 		t.Errorf("GenKey failed, expected nil, got %v", err)
 	}

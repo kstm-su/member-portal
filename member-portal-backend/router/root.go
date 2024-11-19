@@ -43,6 +43,10 @@ func Execute(c *config.Config) {
 	//e.GET("/.well-known/openid-configuration", OpenIDConfigurationHandler)
 	e.GET("/.well-known/jwks.json", JWKsHandler)
 
+	e.GET("/assets/*", func(c echo.Context) error {
+		return c.File("public/assets/" + c.Param("*"))
+	})
+
 	//サーバーの起動
 	var port = c.Server.Port
 	e.Logger.Fatal(e.Start(":" + strconv.Itoa(port)))

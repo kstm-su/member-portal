@@ -1,4 +1,4 @@
-name: Check pull request
+name: Frontend Lint
 
 on:
   workflow_dispatch:
@@ -15,11 +15,17 @@ defaults:
   run:
     working-directory: member-portal-frontend
 
-
 jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
+      - name: Set commit status as pending
+        uses: myrotvorets/set-commit-status-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: pending
+          context: Check pull request (Frontend)
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -33,6 +39,14 @@ jobs:
       - uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review # Change reporter.
+          reporter: github-pr-review
           workdir: member-portal-frontend
           fail_on_error: 'true'
+
+      - name: Set final commit status
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          context: Check pull request (Frontend)

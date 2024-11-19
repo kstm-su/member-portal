@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM golang:1.22.4 as build
+FROM --platform=$BUILDPLATFORM golang:1.22.4 AS build
 RUN mkdir /storage
 
 WORKDIR /go/src/github.com/kstm-su/Member-Portal/backend/
@@ -26,7 +26,6 @@ WORKDIR /app
 EXPOSE 8080
 
 COPY --from=build /storage/ /app/storage/
-VOLUME /app/storage
 
 COPY --from=build /go/src/github.com/kstm-su/Member-Portal/backend/public /app/public
 

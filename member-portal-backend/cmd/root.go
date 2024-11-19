@@ -21,7 +21,7 @@ func init() {
 	// コマンドフラグの設定
 	flags := rootCmd.PersistentFlags()
 	// 設定ファイルのパスを指定するフラグ --config, -c
-	flags.StringVarP(&configFile, "config", "c", "/app/config.yaml", "config file path (default is /app/config.yaml)")
+	flags.StringVarP(&configFile, "config", "c", "/app/data/config.yaml", "config file path (default is /app/data/config.yaml)")
 }
 
 func Execute() error {

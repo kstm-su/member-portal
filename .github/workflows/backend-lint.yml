@@ -1,0 +1,47 @@
+name: Backend Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'member-portal-backend/**'
+
+permissions:
+  statuses: write
+  contents: read
+  pull-requests: write
+
+
+jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set commit status as pending
+        uses: myrotvorets/set-commit-status-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: pending
+          context: Check pull request (Backend)
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          working-directory: member-portal-backend
+          version: v1.60
+
+      - name: Set final commit status
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          context: Check pull request (Backend)

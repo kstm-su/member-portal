@@ -26,8 +26,6 @@ components:
           scopes:
             openid: Grants read access for OpenID Connect
             profile: Grants read access for my profile
-            write: Grants write access for all
-            read: Grants read access for all
 
 paths:
   /oauth2/userinfo:

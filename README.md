@@ -1,6 +1,8 @@
 # member-portal
 kstmメンバーであることを確認し、また事務処理を簡潔化するためのポータルサイト
 
+[Wiki](https://kstm-su.github.io/member-portal/)
+
 ## Frontend
 ### Docker起動方法
 1. Dockerfileのあるディレクトリに移動
@@ -10,7 +12,7 @@ kstmメンバーであることを確認し、また事務処理を簡潔化す�
 
 ※ ローカルで起動する場合は、`npm run dev` を実行
 
-## Backend 
+## Backend
 
 ### Docker起動方法
 1. Dockerfileのあるディレクトリに移動
@@ -30,3 +32,6 @@ kstmメンバーであることを確認し、また事務処理を簡潔化す�
 1. `swagger/README.md` の "Getting started" の手順を行う
 2. "Mock API" の手順を `documentation.yml` と同じディレクトリにて行う
 3. `http://localhost:4010`にモックサーバーが立つ
+
+
+

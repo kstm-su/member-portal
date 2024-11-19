@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/kstm-su/Member-Portal/backend/cmd"
+	"log/slog"
 )
 
 func main() {
@@ -9,7 +10,7 @@ func main() {
 	// flow: コマンド -> コンフィグ -> ルーター
 	err := cmd.Execute()
 	if err != nil {
-		err.Error()
+		slog.Warn(err.Error())
 		return
 	}
 }
