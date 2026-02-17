@@ -19,4 +19,4 @@ services:
     volumes:
       - ./member-portal-backend:/app
       - /app/data
-    command: ["air"]
+    command: ["air", "-c", ".air.toml"]
