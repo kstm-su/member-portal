@@ -6,3 +6,6 @@ docs/site
 
 member-portal-backend/app/**
 member-portal-backend/app-local/**
+
+member-portal-backend/tmp
+member-portal-backend/certificate.pem

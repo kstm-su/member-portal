@@ -1,0 +1,22 @@
+services:
+  frontend:
+    build:
+      context: ./member-portal-frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./member-portal-frontend:/app
+      - /app/node_modules
+    command: ["npm", "run", "dev"]
+
+  backend:
+    build:
+      context: ./member-portal-backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3001:8080
+    volumes:
+      - ./member-portal-backend:/app
+      - /app/data
+    command: ["air", "-c", ".air.toml"]
