@@ -2,7 +2,7 @@ services:
   frontend:
     build:
       context: ./member-portal-frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
     volumes:
