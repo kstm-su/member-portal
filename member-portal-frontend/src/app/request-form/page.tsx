@@ -1,11 +1,24 @@
-import { ButtonDemo } from "../components/atoms/button"
+import { Button } from "@/components/ui/button"
+import { css } from "styled-system/css"
 
-export default function form() {
+export default function RequestFormPage() {
   return (
-    <div>
-      <div>
-        <ButtonDemo />
-      </div>
-    </div>
+    <main
+      className={css({
+        p: "24px",
+        minH: "calc(100vh - 80px)"
+      })}
+    >
+      <h1
+        className={css({
+          mb: "16px",
+          fontSize: "xl",
+          fontWeight: "semibold"
+        })}
+      >
+        Request Form
+      </h1>
+      <Button>Submit</Button>
+    </main>
   )
 }

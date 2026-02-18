@@ -1,15 +1,39 @@
 import Link from "next/link"
 import Image from "next/image"
-import { NavigationMenuDemo } from "../molecules/navigation-menu"
+import { css } from "styled-system/css"
+import * as Avatar from "@/components/ui/avatar"
 import { ModeToggle } from "../molecules/mode-toggle"
-import { DropdownMenuDemo } from "../molecules/dropdown-menu"
 
 export function Header() {
   return (
-    <div className="py-4 px-4 flex items-center justify-between">
-      <div className="gap-4 flex items-center">
-        {/* kstm logo */}
-        <Link href={"/"} className="font-medium flex gap-2">
+    <header
+      className={css({
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        px: "16px",
+        py: "16px",
+        borderBottomWidth: "1px",
+        borderBottomStyle: "solid",
+        borderBottomColor: "gray.4",
+        color: "gray.12"
+      })}
+    >
+      <div
+        className={css({
+          display: "flex",
+          alignItems: "center",
+          gap: "24px"
+        })}
+      >
+        <Link
+          href="/"
+          className={css({
+            display: "flex",
+            gap: "8px",
+            fontWeight: "medium"
+          })}
+        >
           <Image
             src="/kstm.svg"
             alt="Kstm Logo"
@@ -17,19 +41,39 @@ export function Header() {
             height={24}
             priority
           />
-          <div className="py-2">kstm</div>
+          <span
+            className={css({
+              py: "8px"
+            })}
+          >
+            kstm
+          </span>
         </Link>
-        <div>
-          {/* NavigationMenu */}
-          <NavigationMenuDemo />
-        </div>
+        <nav
+          className={css({
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            fontSize: "sm",
+            color: "gray.11"
+          })}
+        >
+          <Link href="/">Home</Link>
+          <Link href="/request-form">Request Form</Link>
+        </nav>
       </div>
-      <div className="flex gap-2">
-        {/*Theme(light mode and dark mode)*/}
+      <div
+        className={css({
+          display: "flex",
+          alignItems: "center",
+          gap: "8px"
+        })}
+      >
         <ModeToggle />
-        {/* avatar icon */}
-        <DropdownMenuDemo />
+        <Avatar.Root>
+          <Avatar.Fallback name="K T" />
+        </Avatar.Root>
       </div>
-    </div>
+    </header>
   )
 }
