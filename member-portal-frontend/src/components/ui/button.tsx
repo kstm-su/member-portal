@@ -1,4 +1,5 @@
 'use client'
+import type React from 'react'
 import { ark } from '@ark-ui/react/factory'
 import { createContext, mergeProps } from '@ark-ui/react/utils'
 import { type ComponentProps, forwardRef, useMemo } from 'react'

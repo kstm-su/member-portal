@@ -1,4 +1,5 @@
 'use client'
+import type React from 'react'
 import { Avatar } from '@ark-ui/react/avatar'
 import { UserIcon } from 'lucide-react'
 import { type ComponentProps, forwardRef } from 'react'
