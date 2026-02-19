@@ -9,7 +9,9 @@
     "panda:codegen": "panda codegen && panda cssgen --outfile ./styled-system/styles.css",
     "lint": "next lint",
     "format": "prettier --config .prettierrc 'src/**/*.tsx' --write",
-    "prepare": "npm run panda:codegen"
+    "prepare": "npm run panda:codegen",
+    "prebuild": "npm run panda:codegen",
+    "predev": "npm run panda:codegen"
   },
   "dependencies": {
     "@ark-ui/react": "^5.31.0",
