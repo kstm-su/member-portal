@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY ./package*.json ./
 
-RUN npm install
+RUN pnpm install --frozen-lockfile
 EXPOSE 3000
 COPY . .
 
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "run", "dev"]
