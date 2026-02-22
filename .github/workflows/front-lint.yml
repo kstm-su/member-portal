@@ -37,6 +37,7 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        working-directory: ./member-portal-frontend
 
       - uses: reviewdog/action-eslint@v1
         with:
